@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Khbiza Clicker Deluxe</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 20px;
+            overflow-x: hidden;
+        }
+
+        .game-title {
+            font-size: 3rem;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            margin-bottom: 20px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+            background-size: 400% 400%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientShift 3s ease infinite;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        .stats-container {
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            text-align: center;
+            min-width: 400px;
+        }
+
+        .score {
+            font-size: 2.5rem;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+        }
+
+        .sub-stats {
+            display: flex;
+            justify-content: space-around;
+            font-size: 1.2rem;
+            margin-top: 15px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-label {
+            opacity: 0.8;
+            font-size: 0.9rem;
+            margin-bottom: 5px;
+        }
+
+        .stat-value {
+            font-weight: bold;
+            color: #4ecdc4;
+        }
+
+        .khbiza-container {
+            position: relative;
+            margin: 30px 0;
+        }
+
+        #khbiza {
+            width: 200px;
+            height: 200px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            border: 5px solid rgba(255, 255, 255, 0.3);
+            object-fit: cover;
+        }
+
+        #khbiza:hover {
+            transform: scale(1.05);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
+        }
+
+        #khbiza:active {
+            transform: scale(0.95);
+        }
+
+        .upgrades-container {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .upgrade-btn {
+            background: linear-gradient(135deg, #4ecdc4, #44a08d);
+            color: white;
+            border: none;
+            padding: 15px 25px;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+            min-width: 200px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .upgrade-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+            transition: left 0.5s;
+        }
+
+        .upgrade-btn:hover::before {
+            left: 100%;
+        }
+
+        .upgrade-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+        }
+
+        .upgrade-btn:active {
+            transform: translateY(-1px);
+        }
+
+        .upgrade-btn:disabled {
+            background: linear-gradient(135deg, #95a5a6, #7f8c8d);
+            cursor: not-allowed;
+            transform: none;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .upgrade-btn:disabled::before {
+            display: none;
+        }
+
+        .click-feedback {
+            position: absolute;
+            font-size: 2rem;
+            font-weight: bold;
+            color: #4ecdc4;
+            pointer-events: none;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            animation: floatUp 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+            z-index: 1000;
+        }
+
+        @keyframes floatUp {
+            0% {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: translateY(-30px) scale(1.2);
+            }
+            100% {
+                opacity: 0;
+                transform: translateY(-60px) scale(0.8);
+            }
+        }
+
+        .particles {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 4px;
+            height: 4px;
+            background: #4ecdc4;
+            border-radius: 50%;
+            pointer-events: none;
+            animation: particleFloat 1s ease-out forwards;
+        }
+
+        @keyframes particleFloat {
+            0% {
+                opacity: 1;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(calc(-50% + var(--random-x, 0px)), calc(-50% + var(--random-y, -100px))) scale(0);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .game-title {
+                font-size: 2rem;
+            }
+            
+            .stats-container {
+                min-width: auto;
+                width: 100%;
+                max-width: 350px;
+                padding: 20px;
+            }
+            
+            #khbiza {
+                width: 250px;
+                height: 250px;
+            }
+            
+            .upgrades-container {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .upgrade-btn {
+                min-width: 280px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1 class="game-title">Khbiza Clicker Deluxe</h1>
+    
+    <div class="stats-container">
+        <div class="score">Score: <span id="score">0</span></div>
+        <div class="sub-stats">
+            <div class="stat-item">
+                <div class="stat-label">Per Click</div>
+                <div class="stat-value" id="ppc">1</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-label">Auto/sec</div>
+                <div class="stat-value" id="auto">0</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="khbiza-container">
+        <img id="khbiza" src="https://i.ibb.co/pvFGFFFF/khbiza.jpg" alt="Khbiza">
+    </div>
+
+    <div class="upgrades-container">
+        <button class="upgrade-btn" id="clickUpgrade">
+            🖱️ Click Upgrade<br>
+            <small>Cost: <span id="clickCost">50</span></small>
+        </button>
+        <button class="upgrade-btn" id="autoUpgrade">
+            🤖 Auto Clicker<br>
+            <small>Cost: <span id="autoCost">100</span></small>
+        </button>
+    </div>
+
+    <script src="script copy.js"></script>
+</body>
+</html>
