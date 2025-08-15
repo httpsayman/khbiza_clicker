@@ -18,7 +18,7 @@ let khbizaImage;
 
 // Initialize the game
 function init() {
-    // Get DOM elements after they exist
+    // Get DOM elements
     scoreElement = document.getElementById('score');
     ppcElement = document.getElementById('ppc');
     autoElement = document.getElementById('auto');
@@ -28,7 +28,12 @@ function init() {
     autoCostElement = document.getElementById('autoCost');
     clickSound = document.getElementById('clickSound');
     khbizaImage = document.getElementById('khbiza');
+
+    // Initialize sound
     clickSound.isPlaying = false;
+    clickSound.addEventListener('ended', () => {
+        clickSound.isPlaying = false;
+    });
 
     updateStats();
     requestAnimationFrame(autoClick);
@@ -57,20 +62,13 @@ function clickKhbiza() {
     score += pointsPerClick;
     updateStats();
     
-    // Sound effect with proper property check
+    // Sound effect
     if(!clickSound.isPlaying) {
         clickSound.currentTime = 0;
-        clickSound.play()
-            .then(() => {
-                clickSound.isPlaying = true;
-                setTimeout(() => {
-                    clickSound.isPlaying = false;
-                }, 100);
-            })
-            .catch(error => {
-                console.error("Audio playback failed:", error);
-            });
+        clickSound.isPlaying = true;
+        clickSound.play().catch(e => console.log("Audio error:", e));
     }
+    
     // Visual feedback
     const feedback = document.createElement('div');
     feedback.textContent = `+${pointsPerClick}`;
@@ -147,4 +145,3 @@ document.head.appendChild(style);
 
 // Start the game when DOM is loaded
 document.addEventListener('DOMContentLoaded', init);
-
