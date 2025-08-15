@@ -71,18 +71,6 @@ function clickKhbiza() {
                 console.error("Audio playback failed:", error);
             });
     }
-    
-    // Visual feedback (unchanged)
-    const feedback = document.createElement('div');
-    feedback.textContent = `+${pointsPerClick}`;
-    feedback.className = 'click-feedback';
-    const rect = khbizaImage.getBoundingClientRect();
-    feedback.style.left = `${rect.left + rect.width/2 - 15}px`;
-    feedback.style.top = `${rect.top + rect.height/2 - 30}px`;
-    document.body.appendChild(feedback);
-    setTimeout(() => feedback.remove(), 1000);
-}
-    
     // Visual feedback
     const feedback = document.createElement('div');
     feedback.textContent = `+${pointsPerClick}`;
@@ -159,3 +147,4 @@ document.head.appendChild(style);
 
 // Start the game when DOM is loaded
 document.addEventListener('DOMContentLoaded', init);
+
