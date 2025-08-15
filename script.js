@@ -28,6 +28,7 @@ function init() {
     autoCostElement = document.getElementById('autoCost');
     clickSound = document.getElementById('clickSound');
     khbizaImage = document.getElementById('khbiza');
+    clickSound.isPlaying = false;
 
     updateStats();
     requestAnimationFrame(autoClick);
@@ -56,13 +57,31 @@ function clickKhbiza() {
     score += pointsPerClick;
     updateStats();
     
-    // Sound effect
+    // Sound effect with proper property check
     if(!clickSound.isPlaying) {
         clickSound.currentTime = 0;
-        clickSound.play();
-        clickSound.isPlaying = true;
-        setTimeout(() => { clickSound.isPlaying = false; }, 100);
+        clickSound.play()
+            .then(() => {
+                clickSound.isPlaying = true;
+                setTimeout(() => {
+                    clickSound.isPlaying = false;
+                }, 100);
+            })
+            .catch(error => {
+                console.error("Audio playback failed:", error);
+            });
     }
+    
+    // Visual feedback (unchanged)
+    const feedback = document.createElement('div');
+    feedback.textContent = `+${pointsPerClick}`;
+    feedback.className = 'click-feedback';
+    const rect = khbizaImage.getBoundingClientRect();
+    feedback.style.left = `${rect.left + rect.width/2 - 15}px`;
+    feedback.style.top = `${rect.top + rect.height/2 - 30}px`;
+    document.body.appendChild(feedback);
+    setTimeout(() => feedback.remove(), 1000);
+}
     
     // Visual feedback
     const feedback = document.createElement('div');
