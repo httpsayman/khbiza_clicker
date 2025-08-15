@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Khbiza clicker Deluxe</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <style>
+        body {
+            text-align: center;
+            font-family: Arial, Helvetica, sans-serif;
+            background-color: #ffffff;
+        }
+        h1 {
+            margin-top: 20px;
+        }
+        #khbiza {
+            width: 500px;
+            cursor: pointer;
+            transition: transform 0.1s;
+        }
+        #khbiza:active {
+            transform: scale(0.9);
+        }
+        button {
+            padding: 15px;
+            margin: 10px;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .stats {
+            background-color: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            margin: 20px auto;
+            max-width: 500px;
+        }
+        .stat-value {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        .container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        .upgrade {
+            background-color: #8bc34a;
+            color: white;
+        }
+        .upgrade:hover {
+            background-color: #7aa944;
+        }
+        .upgrade:active {
+            transform: translateY(0);
+        }
+        .upgrade:disabled {
+            background-color: #ccc;
+            cursor: not-allowed;
+        }
+        .click-feedback {
+            position: absolute;
+            color: #8bc34a;
+            font-weight: bold;
+            font-size: 24px;
+            pointer-events: none;
+            animation: floatUp 1s forwards;
+            will-change: transform, opacity;
+        }
+    </style>
+</head>
+<body>
+    <div class="stats">
+        <h1>Khbiza Clicker Deluxe</h1>
+        <h2>score: <span id="score" class="stat_value" >0</span></h2>
+        <h3>Per Click: <span id="ppc" class="stat_value"></span> | Auto: <span id="auto" class="stat_value">0</span>/sec</h3>
+        <img id="khbiza" src="https://i.ibb.co/pvFGFFFF/khbiza.jpg" alt="khbiza">
+    </div>
+    
+    <div class="container">
+        <button class="upgrade" id="clickUpgrade">
+        Buy Click Upgrade(Cost: <span id="clickCost">50</span>)
+        </button>
+        <button class="upgrade" id="autoUpgrade">
+            Buy Auto Clicker(Cost: <span id="autoCost">100</span>)
+        </button>
+    </div>
+    <audio id="clicksound"
+    src="https://www.soundjay.com/buttons/sounds/button-16a.mp3"></audio>
+    <script src="script.js"></script>
+</body>
+</html>
