@@ -39,8 +39,19 @@ try {
         
         // Initialize the game
         function init() {
+            scoreElement = document.getElementById('score');
+            ppcElement = document.getElementById('ppc');
+            autoElement = document.getElementById('auto');
+            clickUpgradeBtn = document.getElementById('clickUpgrade');
+            autoUpgradeBtn = document.getElementById('autoUpgrade');
+            clickCostElement = document.getElementById('clickCost');
+            autoCostElement = document.getElementById('autoCost');
+            clickSound = document.getElementById('clickSound');
+            khbizaImage = document.getElementById('khbiza');
+                    
             updateStats();
             requestAnimationFrame(autoClick);
+                    
             document.getElementById('clickUpgrade').addEventListener('click', buyUpgrade);
             document.getElementById('autoUpgrade').addEventListener('click', buyAutoClicker);
             document.getElementById('khbiza').addEventListener('click', clickKhbiza);
@@ -148,3 +159,4 @@ try {
 } catch (error) {
     console.error("Game error:", error);
 }
+
